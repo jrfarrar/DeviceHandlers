@@ -27,9 +27,11 @@
 * ----------------
 * 2014-09-05 V1.0.0 Released into SmartThings community.
 * 2014-08-30 V0.9.0 Initial check-in.
+*
+* came from statusbits and geko@statusbits.com
 */
 metadata {
-        definition (name:"X10 Switch", namespace:"statusbits", author:"geko@statusbits.com") {
+        definition (name:"X10 Switch", namespace:"jrfarrar", author:"jrfarrar") {
         capability "Actuator"
         capability "Switch"
         capability "Switch Level"
