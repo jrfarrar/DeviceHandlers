@@ -107,7 +107,7 @@
  *  for the specific language governing permissions and limitations under the License.
  */
 metadata {
-	definition (name: "Aeon Labs Multifunction Siren", namespace: "krlaframboise", author: "Kevin LaFramboise") {
+	definition (name: "Aeon Labs Multifunction Siren", namespace: "jrfarrar", author: "J.R. Farrar") {
 		capability "Actuator"
 		capability "Switch"
 		capability "Alarm"
