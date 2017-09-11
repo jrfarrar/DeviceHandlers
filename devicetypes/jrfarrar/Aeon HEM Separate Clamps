@@ -10,7 +10,7 @@
 metadata {
 	// Automatically generated. Make future change here.
 	definition (
-		name: 		"Aeon HEM Coding", 
+		name: 		"Aeon HEM Separte Clamp", 
 		namespace: 	"Green Living",
 		category: 	"Green Living",
 		author: 	"Barry A. Burke"
