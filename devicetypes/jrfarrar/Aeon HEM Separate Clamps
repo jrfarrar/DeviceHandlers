@@ -22,10 +22,12 @@ metadata {
 		capability "Sensor"
         capability "Refresh"
         capability "Polling"
-        capability "Battery"
+        // capability "Battery"
         
         attribute "energy", "string"
         attribute "power", "string"
+        attribute "powerOne", "string"
+        attribute "powerTwo", "string"
         attribute "volts", "string"
         attribute "voltage", "string"		// We'll deliver both, since the correct one is not defined anywhere
         
@@ -34,8 +36,9 @@ metadata {
         attribute "energyTwo", "string"
         
         attribute "powerDisp", "string"
-        attribute "powerOne", "string"
-        attribute "powerTwo", "string"
+        attribute "power1Disp", "string"
+        attribute "power2Disp", "string"
+        
 
         command "reset"
         command "configure"
@@ -78,7 +81,7 @@ metadata {
         valueTile("powerOne", "device.powerOne") {
         	state(
         		"default", 
-        		label:'${currentValue}', 
+        		label:'Clamp 1\n${currentValue}', 
             	foregroundColors:[
             		[value: 1, color: "#000000"],
             		[value: 10000, color: "#ffffff"]
@@ -89,7 +92,7 @@ metadata {
         valueTile("powerTwo", "device.powerTwo") {
         	state(
         		"default", 
-        		label:'${currentValue}', 
+        		label:'Clamp 2\n${currentValue}', 
             	foregroundColors:[
             		[value: 1, color: "#000000"],
             		[value: 10000, color: "#ffffff"]
@@ -239,7 +242,8 @@ def zwaveEvent(physicalgraph.zwave.commands.multichannelv3.MultiChannelCmdEncap 
 				if (encapsulatedCommand.scale == 2 ) {
 					newValue = Math.round(encapsulatedCommand.scaledMeterValue*10)/10
                     formattedValue = String.format("%5.1f", newValue)
-					dispValue = "${c1Name}\n${formattedValue}\nWatts"	// L1 Watts Label
+					//dispValue = "${c1Name}\n${formattedValue}\nWatts"	// L1 Watts Label
+                    dispValue = "${formattedValue}"	// L1 Watts Label
 					if (newValue != state.powerL1) {
 						state.powerL1 = newValue
 						[name: "powerOne", value: dispValue, unit: "", descriptionText: "L1 Power: ${formattedValue} Watts"]
@@ -259,10 +263,11 @@ def zwaveEvent(physicalgraph.zwave.commands.multichannelv3.MultiChannelCmdEncap 
 				if (encapsulatedCommand.scale == 2 ){
 					newValue = Math.round(encapsulatedCommand.scaledMeterValue*10)/10
                     formattedValue = String.format("%5.1f", newValue)
-                    dispValue = "${c2Name}\n${formattedValue}\nWatts"	// L2 Watts Label
+                    //dispValue = "${c2Name}\n${formattedValue}\nWatts"	// L2 Watts Label
+                    dispValue = "${formattedValue}"	// L2 Watts Label
 					if (newValue != state.powerL1) {
 						state.powerL2 = newValue
-						[name: "powerTwo", value: dispValue, unit: "", descriptionText: "L2 Power: ${formattedValue} Wa1tts"]
+						[name: "powerTwo", value: dispValue, unit: "", descriptionText: "L2 Power: ${formattedValue} Watts"]
 					}	
 				} 
 				else if (encapsulatedCommand.scale == 0 ){
@@ -322,9 +327,11 @@ def resetDisplay() {
 	
     sendEvent(name: "powerDisp", value: "Total\n" + state.powerValue + "\nWatts", unit: "W")	
     sendEvent(name: "energyDisp", value: "Total\n" + state.energyValue + "\nkWh", unit: "kWh")
-	sendEvent(name: "powerOne", value: c1Name + "\n" + state.powerL1 + "\nWatts", unit: "W")    
+	//sendEvent(name: "powerOne", value: c1Name + "\n" + state.powerL1 + "\nWatts", unit: "W")    
+    sendEvent(name: "powerOne", value: state.powerL1, unit: "W")
     sendEvent(name: "energyOne", value: c1Name + "\n" + state.energyL1 + "\nkWh", unit: "kWh")	
-    sendEvent(name: "powerTwo", value: c2Name + "\n" + state.powerL2 + "\nWatts", unit: "W")
+    //sendEvent(name: "powerTwo", value: c2Name + "\n" + state.powerL2 + "\nWatts", unit: "W")
+    sendEvent(name: "powerTwo", value: state.powerL2, unit: "W")
     sendEvent(name: "energyTwo", value: c2Name + "\n" + state.energyL2 + "\nkWh", unit: "kWh")
 }
 
