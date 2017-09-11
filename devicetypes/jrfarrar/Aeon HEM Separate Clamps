@@ -78,10 +78,10 @@ metadata {
             	foregroundColor: "#000000"
 			)
 		}
-        valueTile("powerOne", "device.powerOne") {
+        valueTile("power1Disp", "device.power1Disp") {
         	state(
         		"default", 
-        		label:'Clamp 1\n${currentValue}', 
+        		label:'${currentValue}', 
             	foregroundColors:[
             		[value: 1, color: "#000000"],
             		[value: 10000, color: "#ffffff"]
@@ -89,10 +89,10 @@ metadata {
             	foregroundColor: "#000000"
 			)
         }
-        valueTile("powerTwo", "device.powerTwo") {
+        valueTile("power2Disp", "device.power2Disp") {
         	state(
         		"default", 
-        		label:'Clamp 2\n${currentValue}', 
+        		label:'${currentValue}', 
             	foregroundColors:[
             		[value: 1, color: "#000000"],
             		[value: 10000, color: "#ffffff"]
@@ -159,7 +159,7 @@ metadata {
 		main (["power"])
 		details([
 			"energyOne","energyTwo","energyDisp",
-			"powerOne","powerTwo","powerDisp",
+			"power1Disp","power2Disp","powerDisp",
 			"reset","refresh","configure",
 			"battery"		
 		])
@@ -327,11 +327,11 @@ def resetDisplay() {
 	
     sendEvent(name: "powerDisp", value: "Total\n" + state.powerValue + "\nWatts", unit: "W")	
     sendEvent(name: "energyDisp", value: "Total\n" + state.energyValue + "\nkWh", unit: "kWh")
-	//sendEvent(name: "powerOne", value: c1Name + "\n" + state.powerL1 + "\nWatts", unit: "W")    
-    sendEvent(name: "powerOne", value: state.powerL1, unit: "W")
+	sendEvent(name: "power1Disp", value: c1Name + "\n" + state.powerL1 + "\nWatts", unit: "W")    
+    //sendEvent(name: "powerOne", value: state.powerL1, unit: "W")
     sendEvent(name: "energyOne", value: c1Name + "\n" + state.energyL1 + "\nkWh", unit: "kWh")	
-    //sendEvent(name: "powerTwo", value: c2Name + "\n" + state.powerL2 + "\nWatts", unit: "W")
-    sendEvent(name: "powerTwo", value: state.powerL2, unit: "W")
+    sendEvent(name: "power2Disp", value: c2Name + "\n" + state.powerL2 + "\nWatts", unit: "W")
+    //sendEvent(name: "powerTwo", value: state.powerL2, unit: "W")
     sendEvent(name: "energyTwo", value: c2Name + "\n" + state.energyL2 + "\nkWh", unit: "kWh")
 }
 
