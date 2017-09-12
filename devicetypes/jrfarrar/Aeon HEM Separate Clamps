@@ -17,9 +17,9 @@ metadata {
 	) 
 	{
     	capability "Energy Meter"
-		capability "Power Meter"
-		capability "Configuration"
-		capability "Sensor"
+	capability "Power Meter"
+	capability "Configuration"
+	capability "Sensor"
         capability "Refresh"
         capability "Polling"
         // capability "Battery"
@@ -27,14 +27,14 @@ metadata {
         attribute "energy", "string"
         attribute "energyOne", "string"
         attribute "energyTwo", "string"
-		attribute "power", "string"
+	attribute "power", "string"
         attribute "powerOne", "string"
         attribute "powerTwo", "string"
         attribute "volts", "string"
         attribute "voltage", "string"		// We'll deliver both, since the correct one is not defined anywhere
         
         attribute "energyDisp", "string"
-		attribute "energy1Disp", "string"
+	attribute "energy1Disp", "string"
         attribute "energy2Disp", "string"
         attribute "powerDisp", "string"
         attribute "power1Disp", "string"
@@ -330,13 +330,9 @@ def resetDisplay() {
 	
     sendEvent(name: "powerDisp", value: "Total\n" + state.powerValue + "\nWatts", unit: "W")	
     sendEvent(name: "energyDisp", value: "Total\n" + state.energyValue + "\nkWh", unit: "kWh")
-	sendEvent(name: "power1Disp", value: c1Name + "\n" + state.powerL1 + "\nWatts", unit: "W")    
-    //sendEvent(name: "powerOne", value: state.powerL1, unit: "W")
-    //sendEvent(name: "energyOne", value: c1Name + "\n" + state.energyL1 + "\nkWh", unit: "kWh")
+    sendEvent(name: "power1Disp", value: c1Name + "\n" + state.powerL1 + "\nWatts", unit: "W")
     sendEvent(name: "energy1Disp", value: c1Name + "\n" + state.energyL1 + "\nkWh", unit: "kWh")
     sendEvent(name: "power2Disp", value: c2Name + "\n" + state.powerL2 + "\nWatts", unit: "W")
-    //sendEvent(name: "powerTwo", value: state.powerL2, unit: "W")
-    //sendEvent(name: "energyTwo", value: c2Name + "\n" + state.energyL2 + "\nkWh", unit: "kWh")
     sendEvent(name: "energy2Disp", value: c2Name + "\n" + state.energyL2 + "\nkWh", unit: "kWh")
 }
 
@@ -344,7 +340,7 @@ def reset() {
 	log.debug "reset()"
 	
     state.energyValue = ""
-	state.powerValue = ""
+    state.powerValue = ""
     state.energyL1 = ""
     state.energyL2 = ""
     state.powerL1 = ""
@@ -376,22 +372,21 @@ def configure() {
     
 	def cmd = delayBetween([
     	zwave.configurationV1.configurationSet(parameterNumber: 1, size: 2, scaledConfigurationValue: voltageValue).format(),		// assumed voltage
-		zwave.configurationV1.configurationSet(parameterNumber: 3, size: 1, scaledConfigurationValue: 0).format(),			// Disable (=0) selective reporting
-		zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 1).format(),			// Don't send whole HEM unless watts have changed by 30
-		zwave.configurationV1.configurationSet(parameterNumber: 5, size: 2, scaledConfigurationValue: 1).format(),			// Don't send L1 Data unless watts have changed by 15
-		zwave.configurationV1.configurationSet(parameterNumber: 6, size: 2, scaledConfigurationValue: 1).format(),			// Don't send L2 Data unless watts have changed by 15 
+	zwave.configurationV1.configurationSet(parameterNumber: 3, size: 1, scaledConfigurationValue: 0).format(),			// Disable (=0) selective reporting
+	zwave.configurationV1.configurationSet(parameterNumber: 4, size: 2, scaledConfigurationValue: 1).format(),			// Don't send whole HEM unless watts have changed by 30
+	zwave.configurationV1.configurationSet(parameterNumber: 5, size: 2, scaledConfigurationValue: 1).format(),			// Don't send L1 Data unless watts have changed by 15
+	zwave.configurationV1.configurationSet(parameterNumber: 6, size: 2, scaledConfigurationValue: 1).format(),			// Don't send L2 Data unless watts have changed by 15 
         zwave.configurationV1.configurationSet(parameterNumber: 8, size: 1, scaledConfigurationValue: 5).format(),			// Or by 5% (whole HEM)
-		zwave.configurationV1.configurationSet(parameterNumber: 9, size: 1, scaledConfigurationValue: 5).format(),			// Or by 5% (L1)
-	    zwave.configurationV1.configurationSet(parameterNumber: 10, size: 1, scaledConfigurationValue: 5).format(),			// Or by 5% (L2)
-
-		zwave.configurationV1.configurationSet(parameterNumber: 100, size: 4, scaledConfigurationValue: 1).format(),		// reset to defaults
+	zwave.configurationV1.configurationSet(parameterNumber: 9, size: 1, scaledConfigurationValue: 5).format(),			// Or by 5% (L1)
+	zwave.configurationV1.configurationSet(parameterNumber: 10, size: 1, scaledConfigurationValue: 5).format(),			// Or by 5% (L2)
+	zwave.configurationV1.configurationSet(parameterNumber: 100, size: 4, scaledConfigurationValue: 1).format(),		// reset to defaults
         zwave.configurationV1.configurationSet(parameterNumber: 110, size: 4, scaledConfigurationValue: 1).format(),		// reset to defaults
-		zwave.configurationV1.configurationSet(parameterNumber: 101, size: 4, scaledConfigurationValue: 772).format(),		// watt
-		zwave.configurationV1.configurationSet(parameterNumber: 111, size: 4, scaledConfigurationValue: wDelay).format(), 	// every %Delay% seconds
+	zwave.configurationV1.configurationSet(parameterNumber: 101, size: 4, scaledConfigurationValue: 772).format(),		// watt
+	zwave.configurationV1.configurationSet(parameterNumber: 111, size: 4, scaledConfigurationValue: wDelay).format(), 	// every %Delay% seconds
         zwave.configurationV1.configurationSet(parameterNumber: 102, size: 4, scaledConfigurationValue: 6152).format(),   	// kwh
-		zwave.configurationV1.configurationSet(parameterNumber: 112, size: 4, scaledConfigurationValue: kwhDelay).format(), // Every %Delay% seconds
-		zwave.configurationV1.configurationSet(parameterNumber: 103, size: 4, scaledConfigurationValue: 1).format(),		// battery
-		zwave.configurationV1.configurationSet(parameterNumber: 113, size: 4, scaledConfigurationValue: 10).format() 		// every hour
+	zwave.configurationV1.configurationSet(parameterNumber: 112, size: 4, scaledConfigurationValue: kwhDelay).format(), // Every %Delay% seconds
+	zwave.configurationV1.configurationSet(parameterNumber: 103, size: 4, scaledConfigurationValue: 1).format(),		// battery
+	zwave.configurationV1.configurationSet(parameterNumber: 113, size: 4, scaledConfigurationValue: 10).format() 		// every hour
 	], 2000)
 	
     
