@@ -159,8 +159,8 @@ metadata {
 
 		main (["power"])
 		details([
-			"energy1Disp","energy2Disp","energyDisp",
-			"power1Disp","power2Disp","powerDisp",
+			"powerDisp", "power1Disp","power2Disp",
+            "energyDisp","energy1Disp","energy2Disp",
 			"reset","refresh","configure",
 			"battery"		
 		])
