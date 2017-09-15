@@ -10,10 +10,10 @@
 metadata {
 	// Automatically generated. Make future change here.
 	definition (
-		name: 		"Aeon HEM Separate Clamp", 
-		namespace: 	"Green Living",
-		category: 	"Green Living",
-		author: 	"Barry A. Burke"
+		name: 		"Aeon HEMv1 Separate Clamp", 
+		namespace: 	"jrfarrar",
+		category: 	"HEM",
+		author: 	"J.R. Farrar"
 	) 
 	{
     	capability "Energy Meter"
